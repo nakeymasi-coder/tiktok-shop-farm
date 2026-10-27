@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok and TikTok Shop UGC Agent Farm - Glam Hustle Hub</title>
+<style>
+*{box-sizing:border-box}
+:root{--sapphire:#5b8def;--sapphire-light:#a9c8f8;--sapphire-pale:#e8f1fe;--chrome:#c0c6ce;--pearl:#fdfcfa;--ink:#22304a;--muted:#5a6b8a;--line:#d7e3f5;--good:#1e7a4c;--warn:#9a6a00}
+body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:linear-gradient(160deg,#e8f1fe 0%,#fdfcfa 45%,#dbe9fd 100%);color:var(--ink);font-size:17px;line-height:1.5}
+header{background:linear-gradient(120deg,#a9c8f8,#e8f1fe 55%,#f4f6f9);border-bottom:2px solid var(--chrome);padding:22px 16px 16px;text-align:center}
+header h1{margin:0;font-size:27px;line-height:1.2}
+header p{margin:8px auto 0;max-width:640px;color:var(--muted);font-size:16px}
+nav{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:10px;background:rgba(253,252,250,.95);border-bottom:1px solid var(--line)}
+nav button{flex:1 1 30%;max-width:200px;min-height:52px;border:2px solid var(--sapphire-light);background:#fff;border-radius:14px;font-size:16px;font-weight:700;color:var(--ink);cursor:pointer;padding:8px 4px}
+nav button.active{background:linear-gradient(120deg,var(--sapphire),var(--sapphire-light));color:#fff;border-color:var(--sapphire)}
+.badge{display:inline-block;background:var(--sapphire);color:#fff;border-radius:999px;padding:0 8px;font-size:13px;margin-left:4px;vertical-align:middle}
+main{max-width:860px;margin:0 auto;padding:16px 14px 60px}
+.page{display:none}
+.page.active{display:block}
+.card{background:var(--pearl);border:1px solid var(--line);border-radius:18px;padding:18px;margin:0 0 16px;box-shadow:0 2px 10px rgba(91,141,239,.08)}
+.card h2{margin:0 0 10px;font-size:22px}
+.card h3{margin:14px 0 8px;font-size:19px}
+.mini{background:var(--sapphire-pale);border:1px solid var(--line);border-radius:14px;padding:12px;margin:0 0 10px}
+.mini h4{margin:0 0 6px;font-size:17px}
+.mini p,.card p{margin:0 0 10px}
+.notice{background:#fff7dd;border:2px solid #ecd27a;border-radius:14px;padding:14px;margin:0 0 16px;font-weight:600}
+label{display:block;font-weight:700;margin:16px 0 6px}
+label:first-of-type{margin-top:4px}
+input[type=text],input[type=url],select,textarea{width:100%;min-height:52px;border:2px solid var(--chrome);border-radius:12px;padding:12px;font-size:17px;background:#fff;color:var(--ink);font-family:inherit}
+textarea{min-height:96px;resize:vertical}
+input[type=file]{width:100%;font-size:16px;padding:10px 0}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-row label{flex:1 1 160px;margin:0;font-weight:700;border:2px solid var(--sapphire-light);border-radius:14px;padding:14px;background:#fff;cursor:pointer;text-align:center}
+.radio-row input{width:22px;height:22px;vertical-align:middle;margin-right:6px}
+.btn{display:block;width:100%;min-height:56px;border:none;border-radius:14px;background:linear-gradient(120deg,var(--sapphire),var(--sapphire-light));color:#fff;font-size:18px;font-weight:800;cursor:pointer;padding:12px;margin:14px 0 0}
+.btn.secondary{background:#fff;color:var(--ink);border:2px solid var(--sapphire)}
+.btn.small{min-height:48px;font-size:16px;margin:8px 0 0}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.btn-row .btn{flex:1 1 120px}
+.empty{border:2px dashed var(--chrome);border-radius:14px;padding:20px;text-align:center;color:var(--muted)}
+.slotbox{border:2px solid var(--line);border-radius:14px;padding:12px;margin:10px 0;background:#fff}
+.slotframe{aspect-ratio:9/16;max-width:210px;margin:8px auto;background:var(--sapphire-pale);border:2px dashed var(--chrome);border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden;text-align:center;color:var(--muted);font-size:15px;padding:8px}
+.slotframe img{width:100%;height:100%;object-fit:cover}
+.locked{display:inline-block;background:#dff5e8;color:var(--good);border:1px solid #9fd8b6;border-radius:999px;padding:4px 12px;font-weight:800;font-size:15px}
+.notlocked{display:inline-block;background:#fff1cf;color:var(--warn);border:1px solid #ecd27a;border-radius:999px;padding:4px 12px;font-weight:800;font-size:15px}
+.status{display:inline-block;border-radius:999px;padding:4px 12px;font-weight:800;font-size:15px;background:var(--sapphire-pale);border:1px solid var(--line)}
+.status-btns{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.status-btns button{flex:1 1 90px;min-height:48px;border-radius:12px;border:2px solid var(--sapphire-light);background:#fff;font-size:16px;font-weight:700;cursor:pointer}
+.status-btns button.on{background:var(--sapphire);color:#fff}
+.prompt-out{white-space:pre-wrap;word-break:break-word;background:#0f2447;color:#eaf2ff;border-radius:14px;padding:14px;font-size:15px;line-height:1.55;margin:12px 0 0;min-height:80px}
+.msg{font-weight:700;color:var(--good);margin:10px 0 0}
+.err{font-weight:700;color:#b00020;margin:10px 0 0}
+.solo-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.solo-tabs button{flex:1 1 45%;min-height:52px;border-radius:12px;border:2px solid var(--sapphire-light);background:#fff;font-size:16px;font-weight:700;cursor:pointer;padding:8px}
+.solo-tabs button.active{background:linear-gradient(120deg,var(--sapphire),var(--sapphire-light));color:#fff}
+.solo-panel{display:none}
+.solo-panel.active{display:block}
+.kv{margin:0 0 6px}
+.kv b{display:inline-block;min-width:150px}
+a{color:var(--sapphire);word-break:break-all}
+footer{text-align:center;color:var(--muted);font-size:14px;padding:0 16px 30px}
+@media(min-width:700px){header h1{font-size:34px}nav button{flex:0 1 auto}}
+</style>
+</head>
+<body>
+<header>
+<h1>🦋 TikTok and TikTok Shop UGC Agent Farm 🦋</h1>
+<p>Your control panel for TikTok and TikTok Shop videos - intake, Character Vault, solo agent jobs, and your run Queue, all in one place for @glamorousgrammyglowup.</p>
+</header>
+<nav>
+<button data-page="home" class="active">Home</button>
+<button data-page="intake">Video Intake Form</button>
+<button data-page="vault">Character Vault <span class="badge" id="vaultBadge">0</span></button>
+<button data-page="solo">Solo Agent Forms</button>
+<button data-page="queue">Queue <span class="badge" id="queueBadge">0</span></button>
+<button data-page="run">Run in Chat</button>
+</nav>
+<main>
+
+<!-- ============ HOME ============ -->
+<section class="page active" id="page-home">
+<div class="notice">Plain truth first: this dashboard is your control panel only - intake, vault, and queue. It does NOT browse TikTok, Pinterest, or TikTok Shop, generate images, make videos, buy anything, or post anything by itself. The work happens in chat, from the Run in Chat prompts. NOTHING is ever posted automatically, ever. Posting always needs your separate approval.</div>
+
+<div class="card">
+<h2>How this farm works</h2>
+<p>Fill out the Video Intake Form (or a solo agent form), and the job lands in your Queue. Open it, tap Run in Chat, copy the prompt, and paste it into chat. Your AI runs the farm WITH you in chat - Pinterest outfit or TikTok Shop product, locked character, story, video, captions - and brings the finished video back in chat for your approval. There is no scheduled pickup.</p>
+<p>The Queue status buttons (queued / working / done) only change the label. They never execute anything. Execution happens in chat.</p>
+</div>
+
+<div class="card">
+<h2>The 6 agents - in order</h2>
+<div class="mini"><h4>1. Pinterest Scout</h4><p>Searches Pinterest (guest view, no sign-in) for outfits and products for the chosen mode and topic, especially products with an Amazon link. Picks the outfit or product and copies its picture. Does not check price or availability at this step.</p></div>
+<div class="mini"><h4>2. TikTok Shop Agent</h4><p>Searches TikTok Shop and picks the best products for you to make TikTok Shop videos about - demo-friendly, camera-friendly products that fit your audience. For each pick it reports the product name, what the product picture shows, why it fits, the TikTok Shop product link exactly as shown, and the price exactly as shown on the listing, never a guess. Never buys, orders, or adds anything to a cart. On a TikTok Shop run it leads instead of the Pinterest Scout, and its pick feeds the story, the script, and the video.</p></div>
+<div class="mini"><h4>3. Image Agent</h4><p>Creates the person and avatar images in chat - character references, the outfit photo (your locked character wearing the exact Pinterest outfit, or presenting the exact TikTok Shop product), and the outfit reference sheet. All ultra realistic, real skin texture and real hair texture, all PNG, all 9:16.</p></div>
+<div class="mini"><h4>4. Story Agent</h4><p>Writes the hook, the shots, and the script. Labels every scene with the run's one Product Presentation choice. Writes scene ACTION only for video prompts - never a description of the character.</p></div>
+<div class="mini"><h4>5. Video Agent</h4><p>Makes the video in chat with your AI video tool, using the Consistent Character workflow below. Returns the finished video in chat for your approval. Never posts it.</p></div>
+<div class="mini"><h4>6. Caption Agent</h4><p>Writes the TikTok caption, the on-screen hook, and hashtags for TikTok and TikTok Shop. Ends on the benefit plus tap the product link. No price, no sold counts, no discount or sale claim - ever - in a caption.</p></div>
+</div>
+
+<div class="card">
+<h2>The 8 modes</h2>
+<p>A mode is a setting, not a separate farm. It changes the Pinterest or TikTok Shop search, the story structure, the shots, and the captions.</p>
+<p>1. Get Ready With Me<br>2. Spend The Day With Me<br>3. Tutorials in general<br>4. Makeup tutorials<br>5. Hair tutorials<br>6. Product reviews<br>7. Cooking videos<br>8. TikTok Shop videos</p>
+<p>Pick TikTok Shop videos and the run starts with the TikTok Shop Agent: it picks the best product for you, then the Image, Story, Video, and Caption agents build the whole TikTok Shop video around that product.</p>
+</div>
+
+<div class="card">
+<h2>Product Presentation - one choice, never both</h2>
+<p>Every run picks ONE, right after Mode: <b>Wearing the product</b> OR <b>Holding the product</b>. Never both.</p>
+<p>Wearing run - every scene prompt ends: <b>"Wearing the product, not holding it."</b><br>Holding run - every scene prompt ends: <b>"Holding the product, not wearing it."</b></p>
+<p>Never show her wearing an outfit while holding that same outfit on a hanger. Reject and regenerate any image that shows both. If a video needs both, use separate scenes - holding first, wearing later - never the same shot.</p>
+</div>
+
+<div class="card">
+<h2>The workflow - every full run, in order</h2>
+<p>1. Pick the outfit on Pinterest (one with an Amazon link when there is a product). Copy its picture. For a TikTok Shop run, the TikTok Shop Agent picks the product first instead, and that pick feeds everything after it.</p>
+<p>2. Lock the outfit IN CHAT, not in the video tool: using your locked character's reference photos, put that character in that exact outfit (or presenting that exact product) in chat first. Check face match and outfit or product match.</p>
+<p>3. Make the outfit reference sheet IN CHAT: from the approved outfit photo, one single 9:16 sheet with front, profile, and three-quarter shots of her in that outfit, all on the same photo. Save as PNG.</p>
+<p>4. Build the video with the Consistent Character lock: Reference One is her headshot (Slot 1). Reference Two is the chat-made outfit reference sheet. NEVER leave Reference Two empty. No character bible is needed - the reference photos ARE the lock. Do not paste descriptions of her into scene prompts.</p>
+<p>5. Create the scenes from that lock, in script order, 9:16.</p>
+<p>6. Export and return the video IN CHAT for your approval. Never post, publish, or share it.</p>
+</div>
+
+<div class="card">
+<h2>The scene prompt shape - use this, and nothing else about her</h2>
+<p>"Use the reference images and keep the character perfectly consistent. [Scene action only.] [Spoken line, if any.] Wearing the product, not holding it."</p>
+<p>For a Holding run, the last sentence swaps to: "Holding the product, not wearing it."</p>
+<p>NEVER describe her in a scene prompt - no face, hair, skin, body, or outfit description. Describing her overrides the references and creates a different girl.</p>
+</div>
+
+<div class="card">
+<h2>Standing rules</h2>
+<p>- Every image your AI creates is PNG, never webp. Your own uploaded Vault photos stay as you saved them (JPG or PNG). A webp upload gets rejected with "JPG or PNG please."</p>
+<p>- Nothing is posted automatically, ever. Posting always needs your separate approval.</p>
+<p>- No price, no sold counts, no discount or sale claim in any video (spoken or on-screen) or caption. Prices change, a stale price reads as false advertising, and that risks a TikTok Shop violation. The TikTok Shop product link shows the live price. The TikTok Shop Agent may report a price exactly as shown only inside its pick report in chat - that price never goes into a video or caption.</p>
+<p>- The TikTok Shop Agent never buys, orders, or adds anything to a cart. It only picks and reports.</p>
+<p>- Characters are ultra realistic, with real skin texture and real hair texture. Within one video, identity, clothing, location, and lighting stay frozen from the reference photos.</p>
+<p>- Voice and copy everywhere: personable, human, plain words. No em dashes - hyphens only.</p>
+<button class="btn" onclick="showPage('intake')">Start a Video Intake Form</button>
+<button class="btn secondary" onclick="showPage('vault')">Go to the Character Vault</button>
+</div>
+</section>
+
+<!-- ============ INTAKE ============ -->
+<section class="page" id="page-intake">
+<div class="card">
+<h2>Video Intake Form - full farm run</h2>
+<p>Fields are in farm order. Product Presentation sits right after Mode, on purpose. Submitting adds the run to your Queue. It does not start any work by itself - tap Run in Chat in the Queue when you are ready.</p>
+
+<label for="f_char">1. Locked character</label>
+<select id="f_char"></select>
+<p style="margin:6px 0 0;color:var(--muted)">Pick a locked character, or pick "Create a new character" and add her in the Character Vault first. A character only counts as locked when BOTH vault slots are filled.</p>
+
+<label for="f_mode">2. Mode</label>
+<select id="f_mode"><option value="">- Pick a mode -</option><option>Get Ready With Me</option><option>Spend The Day With Me</option><option>Tutorials in general</option><option>Makeup tutorials</option><option>Hair tutorials</option><option>Product reviews</option><option>Cooking videos</option><option>TikTok Shop videos</option></select>
+
+<label>3. Product Presentation - pick ONE only</label>
+<div class="radio-row">
+<label><input type="radio" name="f_pp" value="Wearing"> Wearing the product</label>
+<label><input type="radio" name="f_pp" value="Holding"> Holding the product</label>
+</div>
+<p style="margin:6px 0 0;color:var(--muted)">Wearing: every prompt ends "Wearing the product, not holding it." Holding: every prompt ends "Holding the product, not wearing it." Never both.</p>
+
+<label for="f_topic">4. Topic</label>
+<input type="text" id="f_topic" placeholder="For example: satin pajama set for a cozy night in">
+
+<label for="f_length">5. Length</label>
+<input type="text" id="f_length" placeholder="For example: 30 seconds">
+
+<label for="f_product_name">6. TikTok Shop product name, when there is one</label>
+<input type="text" id="f_product_name" placeholder="Product name">
+<label for="f_product_link">TikTok Shop product link, when there is one</label>
+<input type="url" id="f_product_link" placeholder="Paste the TikTok Shop product link exactly as shown">
+
+<label for="f_ref_video">7. Reference video link, when there is one</label>
+<input type="url" id="f_ref_video" placeholder="Paste a reference video link">
+
+<label for="f_notes">8. Notes</label>
+<textarea id="f_notes" placeholder="Anything else your AI needs to know for this run"></textarea>
+
+<div class="err" id="f_err"></div>
+<button class="btn" onclick="submitIntake()">Add This Run to the Queue</button>
+<div class="msg" id="f_msg"></div>
+</div>
+</section>
+
+<!-- ============ VAULT ============ -->
+<section class="page" id="page-vault">
+<div class="card">
+<h2>Character Vault - locked characters</h2>
+<p>One record per character. Character A, B, C and so on - each one reusable as that same character, every time. Characters are ultra realistic, with real skin texture and real hair texture. Within one video, identity, clothing, location, and lighting stay frozen from the reference photos.</p>
+<p><b>A character is NOT locked until BOTH slots are filled.</b> Slot 1 is the headshot. Slot 2 is ONE single 9:16 body reference sheet - not separate photos - with front, three-quarter, left profile, and right side views of the same person, same outfit, same background, all on that one photo.</p>
+<p>Uploads are accepted as JPG or PNG, as you saved them. Your uploads are never forced to PNG. A webp upload is rejected with "JPG or PNG please."</p>
+
+<label for="v_name">Character name</label>
+<input type="text" id="v_name" placeholder="For example: Rosa">
+<label for="v_voice">Voice description</label>
+<input type="text" id="v_voice" placeholder="For example: warm, friendly, conversational American voice">
+<div class="slotbox">
+<b>SLOT 1 - HEADSHOT</b> - one photo, 9:16
+<div class="slotframe" id="v_slot1_preview">No headshot yet</div>
+<input type="file" id="v_slot1" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+</div>
+<div class="slotbox">
+<b>SLOT 2 - BODY REFERENCE SHEET</b> - ONE single 9:16 photo with front, three-quarter, left profile, and right side views, all on that one photo
+<div class="slotframe" id="v_slot2_preview">No body reference sheet yet</div>
+<input type="file" id="v_slot2" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+</div>
+<div class="err" id="v_err"></div>
+<button class="btn" onclick="addCharacter()">Save This Character to the Vault</button>
+<div class="msg" id="v_msg"></div>
+</div>
+<div id="vaultList"></div>
+</section>
+
+<!-- ============ SOLO ============ -->
+<section class="page" id="page-solo">
+<div class="card">
+<h2>Solo Agent Forms</h2>
+<p>Run a single agent job by itself. Each form builds a clean, ready-to-copy prompt from what you enter. Copy it into chat, or add the job to the Queue and use Run in Chat there. Adding a job to the Queue does not start any work by itself.</p>
+<div class="solo-tabs">
+<button data-solo="1" class="active">1. Pinterest Scout</button>
+<button data-solo="2">2. TikTok Shop Agent</button>
+<button data-solo="3">3. Image Agent</button>
+<button data-solo="4">4. Story Agent</button>
+<button data-solo="5">5. Video Agent</button>
+<button data-solo="6">6. Caption Agent</button>
+</div>
+
+<div class="solo-panel active" id="solo-1">
+<h3>Agent 1 - Pinterest Scout (solo)</h3>
+<p>Searches Pinterest in guest view (no sign-in) for outfits and products, especially products with an Amazon link. Does not check price or availability at this step.</p>
+<label>Locked character (when the pick is for a character)</label><select id="s1_char" class="char-picker"></select>
+<label>Mode</label><select id="s1_mode" class="mode-sel"></select>
+<label>Topic</label><input type="text" id="s1_topic" placeholder="For example: Halloween pajama set">
+<label>Product focus</label><input type="text" id="s1_product_name" placeholder="For example: satin pajama set">
+<label>Product link, when there is one</label><input type="url" id="s1_product_link" placeholder="Product link">
+<label>Length, when it matters</label><input type="text" id="s1_length" placeholder="For example: 30 seconds">
+<label>Reference video link, when there is one</label><input type="url" id="s1_ref_video" placeholder="Reference video link">
+<label>Notes</label><textarea id="s1_notes" placeholder="Notes for this job"></textarea>
+<input type="hidden" id="s1_extra" value="">
+<div class="prompt-out" id="s1_prompt">Fill in the form - your ready-to-copy Pinterest Scout prompt will appear here.</div>
+<button class="btn" onclick="copyText(document.getElementById('s1_prompt').textContent,this)">Copy Prompt</button>
+<button class="btn secondary" onclick="queueSolo(1)">Add This Solo Job to the Queue</button>
+</div>
+
+<div class="solo-panel" id="solo-2">
+<h3>Agent 2 - TikTok Shop Agent (solo)</h3>
+<p>Searches TikTok Shop and picks the best products for your TikTok Shop videos. Reports the name, picture, why it fits, the TikTok Shop link exactly as shown, and the price exactly as shown - never a guess. Never buys, orders, or adds anything to a cart. The reported price is for picking only - it never goes into a video or caption.</p>
+<label>Locked character (when the pick is for a character)</label><select id="s2_char" class="char-picker"></select>
+<label>Mode</label><select id="s2_mode" class="mode-sel"></select>
+<label>Product Presentation - pick ONE only</label>
+<div class="radio-row"><label><input type="radio" name="s2_pp" value="Wearing"> Wearing the product</label><label><input type="radio" name="s2_pp" value="Holding"> Holding the product</label></div>
+<label>Topic or product category</label><input type="text" id="s2_topic" placeholder="For example: skincare my audience will love">
+<label>Product focus</label><input type="text" id="s2_product_name" placeholder="A product name you already have in mind, if any">
+<label>TikTok Shop product link, when there is one</label><input type="url" id="s2_product_link" placeholder="Paste the TikTok Shop product link exactly as shown">
+<label>Length, when it matters</label><input type="text" id="s2_length" placeholder="For example: 30 seconds">
+<label>Reference video link, when there is one</label><input type="url" id="s2_ref_video" placeholder="Reference video link">
+<label>Notes - audience fit, what to avoid</label><textarea id="s2_notes" placeholder="Notes for this job"></textarea>
+<input type="hidden" id="s2_extra" value="">
+<div class="prompt-out" id="s2_prompt">Fill in the form - your ready-to-copy TikTok Shop Agent prompt will appear here.</div>
+<button class="btn" onclick="copyText(document.getElementById('s2_prompt').textContent,this)">Copy Prompt</button>
+<button class="btn secondary" onclick="queueSolo(2)">Add This Solo Job to the Queue</button>
+</div>
+
+<div class="solo-panel" id="solo-3">
+<h3>Agent 3 - Image Agent (solo)</h3>
+<p>Creates the images in chat: character references, the outfit photo, and the outfit reference sheet. Ultra realistic, real skin and hair texture, all PNG, all 9:16.</p>
+<label>Locked character</label><select id="s3_char" class="char-picker"></select>
+<label>Mode</label><select id="s3_mode" class="mode-sel"></select>
+<label>Topic</label><input type="text" id="s3_topic" placeholder="What is this image job about?">
+<label>Image job</label><input type="text" id="s3_extra" placeholder="For example: outfit photo plus outfit reference sheet">
+<label>Product name, when there is one</label><input type="text" id="s3_product_name" placeholder="Product name">
+<label>Product link, when there is one</label><input type="url" id="s3_product_link" placeholder="Product link">
+<label>Length</label><input type="text" id="s3_length" placeholder="Not needed for most image jobs">
+<label>Reference video link, when there is one</label><input type="url" id="s3_ref_video" placeholder="Reference video link">
+<label>Notes</label><textarea id="s3_notes" placeholder="Notes for this job"></textarea>
+<div class="prompt-out" id="s3_prompt">Fill in the form - your ready-to-copy Image Agent prompt will appear here.</div>
+<button class="btn" onclick="copyText(document.getElementById('s3_prompt').textContent,this)">Copy Prompt</button>
+<button class="btn secondary" onclick="queueSolo(3)">Add This Solo Job to the Queue</button>
+</div>
+
+<div class="solo-panel" id="solo-4">
+<h3>Agent 4 - Story Agent (solo)</h3>
+<p>Writes the hook, the shots, and the script. Labels every scene with the one Product Presentation choice. Writes scene ACTION only - never a description of the character.</p>
+<label>Locked character</label><select id="s4_char" class="char-picker"></select>
+<label>Mode</label><select id="s4_mode" class="mode-sel"></select>
+<label>Product Presentation - pick ONE only</label>
+<div class="radio-row"><label><input type="radio" name="s4_pp" value="Wearing"> Wearing the product</label><label><input type="radio" name="s4_pp" value="Holding"> Holding the product</label></div>
+<label>Topic</label><input type="text" id="s4_topic" placeholder="Topic for the script">
+<label>Length</label><input type="text" id="s4_length" placeholder="For example: 30 seconds">
+<label>Product name, when there is one</label><input type="text" id="s4_product_name" placeholder="Product name">
+<label>TikTok Shop product link, when there is one</label><input type="url" id="s4_product_link" placeholder="TikTok Shop product link">
+<label>Reference video link, when there is one</label><input type="url" id="s4_ref_video" placeholder="Reference video link">
+<label>Hook angle or notes</label><textarea id="s4_notes" placeholder="Notes for this job"></textarea>
+<input type="hidden" id="s4_extra" value="">
+<div class="prompt-out" id="s4_prompt">Fill in the form - your ready-to-copy Story Agent prompt will appear here.</div>
+<button class="btn" onclick="copyText(document.getElementById('s4_prompt').textContent,this)">Copy Prompt</button>
+<button class="btn secondary" onclick="queueSolo(4)">Add This Solo Job to the Queue</button>
+</div>
+
+<div class="solo-panel" id="solo-5">
+<h3>Agent 5 - Video Agent (solo)</h3>
+<p>Makes the video in chat with your AI video tool, using the Consistent Character lock: Reference One is the headshot (Slot 1), Reference Two is the chat-made outfit reference sheet - never empty. Returns the finished video in chat for your approval. Never posts it.</p>
+<label>Locked character</label><select id="s5_char" class="char-picker"></select>
+<label>Mode</label><select id="s5_mode" class="mode-sel"></select>
+<label>Product Presentation - pick ONE only</label>
+<div class="radio-row"><label><input type="radio" name="s5_pp" value="Wearing"> Wearing the product</label><label><input type="radio" name="s5_pp" value="Holding"> Holding the product</label></div>
+<label>Topic</label><input type="text" id="s5_topic" placeholder="Topic for the video">
+<label>Length</label><input type="text" id="s5_length" placeholder="For example: 30 seconds">
+<label>Product name, when there is one</label><input type="text" id="s5_product_name" placeholder="Product name">
+<label>TikTok Shop product link, when there is one</label><input type="url" id="s5_product_link" placeholder="TikTok Shop product link">
+<label>Reference video link, when there is one</label><input type="url" id="s5_ref_video" placeholder="Reference video link">
+<label>Script or scene notes</label><textarea id="s5_notes" placeholder="Paste or describe the script and scenes"></textarea>
+<input type="hidden" id="s5_extra" value="">
+<div class="prompt-out" id="s5_prompt">Fill in the form - your ready-to-copy Video Agent prompt will appear here.</div>
+<button class="btn" onclick="copyText(document.getElementById('s5_prompt').textContent,this)">Copy Prompt</button>
+<button class="btn secondary" onclick="queueSolo(5)">Add This Solo Job to the Queue</button>
+</div>
+
+<div class="solo-panel" id="solo-6">
+<h3>Agent 6 - Caption Agent (solo)</h3>
+<p>Writes the TikTok caption, on-screen hook, and hashtags for TikTok and TikTok Shop. Ends on the benefit plus tap the product link. No price, no sold counts, no discount or sale claim.</p>
+<label>Locked character, when it matters</label><select id="s6_char" class="char-picker"></select>
+<label>Mode</label><select id="s6_mode" class="mode-sel"></select>
+<label>Topic</label><input type="text" id="s6_topic" placeholder="What is the video about?">
+<label>Product benefit or video description</label><input type="text" id="s6_extra" placeholder="For example: keeps my skin soft all day">
+<label>Product name, when there is one</label><input type="text" id="s6_product_name" placeholder="Product name">
+<label>TikTok Shop product link, when there is one</label><input type="url" id="s6_product_link" placeholder="TikTok Shop product link">
+<label>Length</label><input type="text" id="s6_length" placeholder="For example: 30 seconds">
+<label>Reference video link, when there is one</label><input type="url" id="s6_ref_video" placeholder="Reference video link">
+<label>Notes</label><textarea id="s6_notes" placeholder="Notes for this job"></textarea>
+<div class="prompt-out" id="s6_prompt">Fill in the form - your ready-to-copy Caption Agent prompt will appear here.</div>
+<button class="btn" onclick="copyText(document.getElementById('s6_prompt').textContent,this)">Copy Prompt</button>
+<button class="btn secondary" onclick="queueSolo(6)">Add This Solo Job to the Queue</button>
+</div>
+</div>
+</section>
+
+<!-- ============ QUEUE ============ -->
+<section class="page" id="page-queue">
+<div class="card">
+<h2>Queue - all runs and solo jobs</h2>
+<p>Full runs and solo jobs together, newest first. Status is manual: queued, working, or done. Changing a status only changes the label - it never executes anything. To run a job, tap Run in Chat, copy the prompt, and paste it into chat.</p>
+</div>
+<div id="queueList"></div>
+</section>
+
+<!-- ============ RUN IN CHAT ============ -->
+<section class="page" id="page-run">
+<div class="card">
+<h2>Run in Chat</h2>
+<p>Tap Run in Chat on any Queue card and the run opens here, set to working. Copy the prompt, paste it into chat, and your AI runs that exact run with those exact details - nothing swapped. Nothing here runs, posts, or buys anything by itself.</p>
+<div id="runCard"><div class="empty">No run open yet.<br>Go to the Queue and tap Run in Chat on a run.</div></div>
+</div>
+</section>
+
+</main>
+<footer>🦋 TikTok and TikTok Shop UGC Agent Farm - Glam Hustle Hub 🦋<br>Control panel only. Work happens in chat. Nothing is posted automatically, ever.</footer>
+
+<script>
+var MODES=['Get Ready With Me','Spend The Day With Me','Tutorials in general','Makeup tutorials','Hair tutorials','Product reviews','Cooking videos','TikTok Shop videos'];
+var AGENT_NAMES={1:'Pinterest Scout',2:'TikTok Shop Agent',3:'Image Agent',4:'Story Agent',5:'Video Agent',6:'Caption Agent'};
+var chars=[]; var queue=[]; var currentRunId=null;
+var pendingSlot1=null; var pendingSlot2=null;
+try{ chars=JSON.parse(localStorage.getItem('tiktokshopfarm_chars_v1')||'[]'); }catch(e){ chars=[]; }
+try{ queue=JSON.parse(localStorage.getItem('tiktokshopfarm_queue_v1')||'[]'); }catch(e){ queue=[]; }
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function save(){ try{ localStorage.setItem('tiktokshopfarm_chars_v1',JSON.stringify(chars)); localStorage.setItem('tiktokshopfarm_queue_v1',JSON.stringify(queue)); }catch(e){ alert('This browser is out of space for saved photos. The item was kept for this visit but may not survive a reload.'); } }
+function ppSentence(pp){ if(pp==='Holding') return 'Holding the product, not wearing it.'; if(pp==='Wearing') return 'Wearing the product, not holding it.'; return 'Not picked yet - a run must pick Wearing OR Holding, never both.'; }
+function getChar(id){ for(var i=0;i<chars.length;i++){ if(chars[i].id===id) return chars[i]; } return null; }
+function charLabel(c){ return c ? ('Character '+c.letter+' - '+c.name) : 'No character picked'; }
+function isLocked(c){ return !!(c && c.slot1 && c.slot2); }
+function showPage(name){ var pages=document.querySelectorAll('.page'); for(var i=0;i<pages.length;i++) pages[i].classList.remove('active'); var p=$('page-'+name); if(p) p.classList.add('active'); var btns=document.querySelectorAll('nav button'); for(var j=0;j<btns.length;j++){ btns[j].classList.toggle('active', btns[j].getAttribute('data-page')===name); } window.scrollTo(0,0); }
+var navBtns=document.querySelectorAll('nav button'); for(var nb=0;nb<navBtns.length;nb++){ navBtns[nb].addEventListener('click',function(){ showPage(this.getAttribute('data-page')); }); }
+function refreshPickers(){ var opts='<option value="">- No character picked -</option><option value="__new">Create a new character (add her in the Character Vault)</option>'; chars.forEach(function(c){ opts+='<option value="'+c.id+'">Character '+esc(c.letter)+' - '+esc(c.name)+(isLocked(c)?' (LOCKED)':' (not locked yet)')+'</option>'; }); $('f_char').innerHTML=opts; var picks=document.querySelectorAll('.char-picker'); for(var i=0;i<picks.length;i++){ var cur=picks[i].value; picks[i].innerHTML=opts; picks[i].value=cur; } var modes='<option value="">- Pick a mode -</option>'+MODES.map(function(m){ return '<option>'+m+'</option>'; }).join(''); var ms=document.querySelectorAll('.mode-sel'); for(var k=0;k<ms.length;k++){ var mv=ms[k].value; ms[k].innerHTML=modes; ms[k].value=mv; } $('vaultBadge').textContent=chars.length; $('queueBadge').textContent=queue.length; }
+function isJpgPng(file){ if(!file) return false; var n=(file.name||'').toLowerCase(); var t=file.type||''; if(t==='image/webp'||n.slice(-5)==='.webp') return false; return t==='image/jpeg'||t==='image/png'||n.slice(-4)==='.jpg'||n.slice(-5)==='.jpeg'||n.slice(-4)==='.png'; }
+function readSlot(file,cb,errEl){ if(!file){ cb(null); return; } if(!isJpgPng(file)){ if(errEl){ errEl.textContent='JPG or PNG please.'; } alert('JPG or PNG please.'); cb(undefined); return; } var r=new FileReader(); r.onload=function(){ cb({data:r.result,name:file.name}); }; r.readAsDataURL(file); }
+$('v_slot1').addEventListener('change',function(){ $('v_err').textContent=''; readSlot(this.files[0],function(res){ if(res===undefined){ $('v_slot1').value=''; return; } pendingSlot1=res; $('v_slot1_preview').innerHTML=res?('<img src="'+res.data+'" alt="Slot 1 headshot preview">'):'No headshot yet'; },$('v_err')); });
+$('v_slot2').addEventListener('change',function(){ $('v_err').textContent=''; readSlot(this.files[0],function(res){ if(res===undefined){ $('v_slot2').value=''; return; } pendingSlot2=res; $('v_slot2_preview').innerHTML=res?('<img src="'+res.data+'" alt="Slot 2 body reference sheet preview">'):'No body reference sheet yet'; },$('v_err')); });
+function nextLetter(){ var used={}; chars.forEach(function(c){ used[c.letter]=true; }); var abc='ABCDEFGHIJKLMNOPQRSTUVWXYZ'; for(var i=0;i<abc.length;i++){ if(!used[abc[i]]) return abc[i]; } return 'X'+(chars.length+1); }
+function addCharacter(){ var name=$('v_name').value.trim(); var voice=$('v_voice').value.trim(); $('v_err').textContent=''; $('v_msg').textContent=''; if(!name){ $('v_err').textContent='Give the character a name first.'; return; } var c={id:'c'+Date.now(),letter:nextLetter(),name:name,voice:voice,slot1:pendingSlot1,slot2:pendingSlot2}; chars.push(c); save(); pendingSlot1=null; pendingSlot2=null; $('v_name').value=''; $('v_voice').value=''; $('v_slot1').value=''; $('v_slot2').value=''; $('v_slot1_preview').textContent='No headshot yet'; $('v_slot2_preview').textContent='No body reference sheet yet'; $('v_msg').textContent='Saved: Character '+c.letter+' - '+c.name+(isLocked(c)?' - LOCKED.':' - not locked yet. A character is NOT locked until BOTH slots are filled.'); renderVault(); refreshPickers(); }
+function replaceSlot(charId,slot,input){ var c=getChar(charId); if(!c) return; readSlot(input.files[0],function(res){ if(res===undefined){ input.value=''; renderVault(); return; } if(res){ c[slot]=res; save(); renderVault(); refreshPickers(); if(currentRunId) renderRunCard(currentRunId); } },null); }
+function deleteCharacter(id){ if(!confirm('Delete this character from the Vault?')) return; chars=chars.filter(function(c){ return c.id!==id; }); save(); renderVault(); refreshPickers(); }
+function renderVault(){ var w=$('vaultList'); if(!chars.length){ w.innerHTML='<div class="card"><div class="empty">Your Character Vault is empty.<br>Add your first character above - headshot in Slot 1, single 9:16 body reference sheet in Slot 2.</div></div>'; return; } w.innerHTML=chars.map(function(c){ var lk=isLocked(c); return '<div class="card"><h3>Character '+esc(c.letter)+' - '+esc(c.name)+'</h3>'
++'<p class="kv"><b>Voice:</b> '+esc(c.voice||'No voice description yet')+'</p>'
++'<p>'+(lk?'<span class="locked">LOCKED</span>':'<span class="notlocked">NOT LOCKED</span>')+' <span style="color:var(--muted)">A character is NOT locked until BOTH slots are filled.</span></p>'
++'<div class="slotbox"><b>SLOT 1 - HEADSHOT</b> - '+(c.slot1?('Filled - '+esc(c.slot1.name)):'Not filled')+'<div class="slotframe">'+(c.slot1?('<img src="'+c.slot1.data+'" alt="Slot 1 headshot">'):'No headshot yet<br>One photo, 9:16')+'</div><input type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" onchange="replaceSlot(\''+c.id+'\',\'slot1\',this)"></div>'
++'<div class="slotbox"><b>SLOT 2 - BODY REFERENCE SHEET</b> - '+(c.slot2?('Filled - '+esc(c.slot2.name)):'Not filled')+'<div class="slotframe">'+(c.slot2?('<img src="'+c.slot2.data+'" alt="Slot 2 body reference sheet">'):'No body reference sheet yet<br>ONE single 9:16 photo: front, three-quarter, left profile, right side - same person, same outfit, same background, all on that one photo')+'</div><input type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png" onchange="replaceSlot(\''+c.id+'\',\'slot2\',this)"></div>'
++'<button class="btn secondary small" onclick="deleteCharacter(\''+c.id+'\')">Delete This Character</button></div>'; }).join(''); }
+function rulesBlock(pp){ return 'WORKFLOW - run in this order:\n'
++'1. Pick the outfit on Pinterest (one with an Amazon link when there is a product). Copy its picture. For a TikTok Shop run (mode: TikTok Shop videos), the TikTok Shop Agent picks the product first instead - product name, picture, why it fits, TikTok Shop link exactly as shown, price exactly as shown for picking only - and that pick feeds everything after it. Never buy, order, or add anything to a cart.\n'
++'2. Lock the outfit IN CHAT, not in the video tool: using my locked character reference photos, put that character in that exact outfit (or presenting that exact product) in chat first. Check face match and outfit or product match.\n'
++'3. Make the outfit reference sheet IN CHAT: from the approved outfit photo, one single 9:16 sheet with front, profile, and three-quarter shots of her in that outfit, all on the same photo. Save as PNG.\n'
++'4. Build the video with the Consistent Character lock: Reference One is her headshot (Slot 1). Reference Two is the chat-made outfit reference sheet. NEVER leave Reference Two empty. No character bible is needed - the reference photos ARE the lock. Do not paste descriptions of her into scene prompts.\n'
++'5. Create the scenes from that lock, in script order, 9:16.\n'
++'6. Export and return the video IN CHAT for my approval. Never post, publish, or share it.\n\n'
++'SCENE PROMPT SHAPE - use this for every scene, and nothing else about her:\n'
++'"Use the reference images and keep the character perfectly consistent. [Scene action only.] [Spoken line, if any.] '+ppSentence(pp)+'"\n'
++'NEVER describe her in a scene prompt - no face, hair, skin, body, or outfit description. Describing her overrides the references and creates a different girl.\n\n'
++'PRODUCT PRESENTATION - either/or, never both:\n'
++'This run is: '+(pp||'not picked')+' - '+ppSentence(pp)+'\n'
++'Never show her wearing an outfit while holding that same outfit on a hanger. Reject and regenerate any image that shows both. If a video needs both, use separate scenes - holding first, wearing later - never the same shot.\n\n'
++'STANDING RULES:\n'
++'- Every image you create is PNG, never webp. My uploaded Vault photos stay as I saved them (JPG or PNG).\n'
++'- Nothing is posted automatically, ever. Posting always needs my separate approval.\n'
++'- No price, no sold counts, no discount or sale claim in any video (spoken or on-screen) or caption. The TikTok Shop product link shows the live price.\n'
++'- Characters are ultra realistic, with real skin texture and real hair texture. Within one video, identity, clothing, location, and lighting stay frozen from the reference photos.\n'
++'- Voice and copy: personable, human, plain words. No em dashes - use hyphens instead.\n'
++'- Agents in order: 1 Pinterest Scout, 2 TikTok Shop Agent, 3 Image Agent, 4 Story Agent, 5 Video Agent, 6 Caption Agent.\n'; }
+function jobHeader(title,d){ var c=getChar(d.charId); return title+'\nRun this exact job. Do not swap any details.\n\n'
++'Character: '+charLabel(c)+'\n'
++'Slot 1 Headshot: '+(c&&c.slot1?('Filled - '+c.slot1.name):'Not filled')+'\n'
++'Slot 2 Body Reference Sheet: '+(c&&c.slot2?('Filled - '+c.slot2.name):'Not filled')+'\n'
++'Character locked: '+(isLocked(c)?'YES - both slots filled':'NO - a character is NOT locked until BOTH slots are filled')+'\n'
++'Voice: '+((c&&c.voice)||d.voice||'Not given')+'\n'
++'Mode: '+(d.mode||'Not picked')+'\n'
++'Product Presentation: '+(d.pp||'Not picked')+' - '+ppSentence(d.pp)+'\n'
++'Topic: '+(d.topic||'Not given')+'\n'
++'Length: '+(d.length||'Not given')+'\n'
++'Product name: '+(d.productName||'None given')+'\n'
++'TikTok Shop product link: '+(d.productLink||'None given')+'\n'
++'Reference video link: '+(d.refVideo||'None given')+'\n'
++(d.extra?('Job detail: '+d.extra+'\n'):'')
++'Notes: '+(d.notes||'None')+'\n\n'; }
+function buildFullPrompt(d){ return jobHeader('TIKTOK AND TIKTOK SHOP UGC AGENT FARM - FULL FARM RUN (all 6 agents, in order)',d)
++'Run all 6 agents in order for TikTok and TikTok Shop. For an outfit run the Pinterest Scout leads. For a TikTok Shop run (mode: TikTok Shop videos) the TikTok Shop Agent leads and its picked product feeds the whole run - the Story Agent writes the full script for the TikTok Shop video around that product, and the Caption Agent ends on the benefit plus tap the product link.\n\n'
++rulesBlock(d.pp); }
+function buildSoloPrompt(d){ var b=''; 
+if(d.agentNum===1) b='AGENT JOB - Pinterest Scout only:\nSearch Pinterest from guest view (no sign-in) for outfits and products for the mode and topic above, especially products with an Amazon link. Do NOT check price or availability at this step. Bring back the best pins and the outfit pictures.\n\n';
+if(d.agentNum===2) b='AGENT JOB - TikTok Shop Agent only:\nSearch TikTok Shop for products for the topic above and pick the best products for me to make TikTok Shop videos about - demo-friendly, camera-friendly, a fit for my audience. For each pick report: the product name, what the product picture shows, why it fits, the TikTok Shop product link exactly as shown, and the price exactly as shown on the TikTok Shop listing (never a guess, for picking only - it never goes into a video or caption). Name your number 1 pick clearly. Never buy, order, or add anything to a cart. The picked product can then feed the Story Agent for the full TikTok Shop video script and the Video Agent for the video.\n\n';
+if(d.agentNum===3) b='AGENT JOB - Image Agent only:\nCreate the person and avatar images in chat: the character references, the outfit photo, and the outfit reference sheet. Ultra realistic, real skin texture and real hair texture. All PNG, all 9:16. Lock the outfit in chat first (face match plus outfit match), then make one single 9:16 outfit reference sheet with front, profile, and three-quarter shots on the same photo, saved as PNG.\n\n';
+if(d.agentNum===4) b='AGENT JOB - Story Agent only:\nWrite the hook, the shots, and the script for TikTok. Label every scene with the Product Presentation choice above. Use the scene prompt shape below. Write scene action only for video prompts, never a description of the character.\n\n';
+if(d.agentNum===5) b='AGENT JOB - Video Agent only:\nMake the video in chat with my AI video tool. Use the Consistent Character lock in every scene: Reference One = headshot (Slot 1), Reference Two = the chat-made outfit reference sheet. NEVER leave Reference Two empty. No character bible - the reference photos are the lock. Create the scenes in script order, 9:16, using the exact scene prompts. Return the finished video in chat for my approval. Never post it.\n\n';
+if(d.agentNum===6) b='AGENT JOB - Caption Agent only:\nWrite the TikTok caption, the on-screen hook, and hashtags for TikTok and TikTok Shop. End on the benefit plus tap the product link. No price, no sold counts, no discount or sale claim.\n\n';
+return jobHeader('TIKTOK AND TIKTOK SHOP UGC AGENT FARM - SOLO JOB: Agent '+d.agentNum+' - '+AGENT_NAMES[d.agentNum],d)+b+rulesBlock(d.pp||''); }
+function promptFor(item){ return item.agentNum ? buildSoloPrompt(item) : buildFullPrompt(item); }
+function checkedPP(name){ var r=document.querySelectorAll('input[name="'+name+'"]'); for(var i=0;i<r.length;i++){ if(r[i].checked) return r[i].value; } return ''; }
+function submitIntake(){ $('f_err').textContent=''; $('f_msg').textContent=''; var charId=$('f_char').value; if(charId==='__new') charId=''; var mode=$('f_mode').value; var pp=checkedPP('f_pp'); var topic=$('f_topic').value.trim(); if(!mode){ $('f_err').textContent='Pick a mode first.'; return; } if(!pp){ $('f_err').textContent='Pick ONE Product Presentation: Wearing OR Holding. Never both, never neither.'; return; } if(!topic){ $('f_err').textContent='Add a topic so your AI knows what this run is about.'; return; } var c=getChar(charId); var item={id:'r'+Date.now(),type:'Full Farm Run',agentNum:0,charId:charId,voice:c?(c.voice||''):'' ,mode:mode,pp:pp,topic:topic,length:$('f_length').value.trim(),productName:$('f_product_name').value.trim(),productLink:$('f_product_link').value.trim(),refVideo:$('f_ref_video').value.trim(),notes:$('f_notes').value.trim(),extra:'',status:'queued',createdAt:Date.now()}; queue.unshift(item); save(); renderQueue(); refreshPickers(); $('queueBadge').textContent=queue.length; $('f_msg').textContent='Added to your Queue. Tap Queue, then Run in Chat, when you are ready.'; $('f_topic').value=''; $('f_length').value=''; $('f_product_name').value=''; $('f_product_link').value=''; $('f_ref_video').value=''; $('f_notes').value=''; }
+function soloData(n){ var charId=$('s'+n+'_char').value; if(charId==='__new') charId=''; var c=getChar(charId); var pp=''; if(n===2) pp=checkedPP('s2_pp'); if(n===4) pp=checkedPP('s4_pp'); if(n===5) pp=checkedPP('s5_pp'); var ex=''; var exEl=$('s'+n+'_extra'); if(exEl) ex=exEl.value.trim(); return {id:'r'+Date.now()+n,type:'Solo - '+AGENT_NAMES[n],agentNum:n,charId:charId,voice:c?(c.voice||''):'',mode:$('s'+n+'_mode').value,pp:pp,topic:$('s'+n+'_topic').value.trim(),length:$('s'+n+'_length').value.trim(),productName:$('s'+n+'_product_name').value.trim(),productLink:$('s'+n+'_product_link').value.trim(),refVideo:$('s'+n+'_ref_video').value.trim(),notes:$('s'+n+'_notes').value.trim(),extra:ex,status:'queued',createdAt:Date.now()}; }
+function updateSoloPrompt(n){ var out=$('s'+n+'_prompt'); if(out) out.textContent=buildSoloPrompt(soloData(n)); }
+function queueSolo(n){ var item=soloData(n); queue.unshift(item); save(); renderQueue(); refreshPickers(); $('queueBadge').textContent=queue.length; showPage('queue'); }
+var soloTabs=document.querySelectorAll('.solo-tabs button'); for(var st=0;st<soloTabs.length;st++){ soloTabs[st].addEventListener('click',function(){ var n=this.getAttribute('data-solo'); for(var i=0;i<soloTabs.length;i++) soloTabs[i].classList.remove('active'); this.classList.add('active'); var panels=document.querySelectorAll('.solo-panel'); for(var j=0;j<panels.length;j++) panels[j].classList.remove('active'); $('solo-'+n).classList.add('active'); }); }
+for(var sn=1;sn<=6;sn++){ (function(n){ var panel=$('solo-'+n); if(!panel) return; var fields=panel.querySelectorAll('input,select,textarea'); for(var f=0;f<fields.length;f++){ fields[f].addEventListener('input',function(){ updateSoloPrompt(n); }); fields[f].addEventListener('change',function(){ updateSoloPrompt(n); }); } updateSoloPrompt(n); })(sn); }
+function setStatus(id,status){ for(var i=0;i<queue.length;i++){ if(queue[i].id===id) queue[i].status=status; } save(); renderQueue(); if(currentRunId===id) renderRunCard(id); }
+function deleteRun(id){ if(!confirm('Delete this job from the Queue?')) return; queue=queue.filter(function(q){ return q.id!==id; }); if(currentRunId===id) currentRunId=null; save(); renderQueue(); refreshPickers(); }
+function renderQueue(){ var w=$('queueList'); $('queueBadge').textContent=queue.length; if(!queue.length){ w.innerHTML='<div class="card"><div class="empty">Your Queue is empty.<br>Add a full run from the Video Intake Form, or a solo job from the Solo Agent Forms.</div></div>'; return; } w.innerHTML=queue.map(function(q){ var c=getChar(q.charId); return '<div class="card"><h3>'+esc(q.type)+'</h3>'
++'<p class="kv"><b>Character:</b> '+esc(charLabel(c))+'</p>'
++'<p class="kv"><b>Mode:</b> '+esc(q.mode||'Not picked')+'</p>'
++'<p class="kv"><b>Product Presentation:</b> '+esc(q.pp||'Not picked')+' - "'+esc(ppSentence(q.pp))+'"</p>'
++'<p class="kv"><b>Topic:</b> '+esc(q.topic||'Not given')+'</p>'
++'<p class="kv"><b>Length:</b> '+esc(q.length||'Not given')+'</p>'
++'<p class="kv"><b>Product:</b> '+esc(q.productName||'None given')+(q.productLink?(' - <a href="'+esc(q.productLink)+'" target="_blank" rel="noopener">'+esc(q.productLink)+'</a>'):'')+'</p>'
++(q.refVideo?('<p class="kv"><b>Reference video:</b> <a href="'+esc(q.refVideo)+'" target="_blank" rel="noopener">'+esc(q.refVideo)+'</a></p>'):'')
++'<p class="kv"><b>Status:</b> <span class="status">'+esc(q.status)+'</span></p>'
++'<div class="status-btns"><button class="'+(q.status==='queued'?'on':'')+'" onclick="setStatus(\''+q.id+'\',\'queued\')">Queued</button><button class="'+(q.status==='working'?'on':'')+'" onclick="setStatus(\''+q.id+'\',\'working\')">Working</button><button class="'+(q.status==='done'?'on':'')+'" onclick="setStatus(\''+q.id+'\',\'done\')">Done</button></div>'
++'<button class="btn" onclick="runInChat(\''+q.id+'\')">Run in Chat</button>'
++'<button class="btn secondary small" onclick="copyText(promptFor(queue.find(function(x){return x.id===\''+q.id+'\';})),this)">Copy Prompt</button>'
++'<button class="btn secondary small" onclick="deleteRun(\''+q.id+'\')">Delete</button></div>'; }).join(''); }
+function runInChat(id){ setStatus(id,'working'); currentRunId=id; renderRunCard(id); showPage('run'); }
+function renderRunCard(id){ var q=null; for(var i=0;i<queue.length;i++){ if(queue[i].id===id) q=queue[i]; } var w=$('runCard'); if(!q){ w.innerHTML='<div class="empty">That run is no longer in your Queue.</div>'; return; } var c=getChar(q.charId); var prompt=promptFor(q); w.innerHTML='<div class="mini"><h4>'+esc(q.type)+'</h4>'
++'<p class="kv"><b>Character:</b> '+esc(charLabel(c))+'</p>'
++'<p class="kv"><b>Voice:</b> '+esc((c&&c.voice)||q.voice||'Not given')+'</p>'
++'<div class="slotbox"><b>SLOT 1 - HEADSHOT:</b> '+(c&&c.slot1?('Filled - '+esc(c.slot1.name)):'Not filled')+'<div class="slotframe">'+(c&&c.slot1?('<img src="'+c.slot1.data+'" alt="Slot 1 headshot">'):'No headshot uploaded')+'</div></div>'
++'<div class="slotbox"><b>SLOT 2 - BODY REFERENCE SHEET:</b> '+(c&&c.slot2?('Filled - '+esc(c.slot2.name)):'Not filled')+'<div class="slotframe">'+(c&&c.slot2?('<img src="'+c.slot2.data+'" alt="Slot 2 body reference sheet">'):'No body reference sheet uploaded')+'</div></div>'
++'<p>'+(isLocked(c)?'<span class="locked">Character LOCKED - both slots filled</span>':'<span class="notlocked">Character NOT locked - both slots must be filled</span>')+'</p>'
++'<p class="kv"><b>Mode:</b> '+esc(q.mode||'Not picked')+'</p>'
++'<p class="kv"><b>Product Presentation:</b> '+esc(q.pp||'Not picked')+' - "'+esc(ppSentence(q.pp))+'"</p>'
++'<p class="kv"><b>Topic:</b> '+esc(q.topic||'Not given')+'</p>'
++'<p class="kv"><b>Length:</b> '+esc(q.length||'Not given')+'</p>'
++'<p class="kv"><b>Product:</b> '+esc(q.productName||'None given')+(q.productLink?(' - <a href="'+esc(q.productLink)+'" target="_blank" rel="noopener">'+esc(q.productLink)+'</a>'):'')+'</p>'
++(q.refVideo?('<p class="kv"><b>Reference video:</b> <a href="'+esc(q.refVideo)+'" target="_blank" rel="noopener">'+esc(q.refVideo)+'</a></p>'):'<p class="kv"><b>Reference video:</b> None given</p>')
++'<p class="kv"><b>Status:</b> <span class="status">'+esc(q.status)+'</span></p></div>'
++'<div class="prompt-out" id="runPrompt">'+esc(prompt)+'</div>'
++'<button class="btn" onclick="copyText(document.getElementById(\'runPrompt\').textContent,this)">COPY PROMPT</button>'
++'<p style="color:var(--muted)">Paste the copied prompt into chat. Your AI runs that exact run, with those exact details, nothing swapped. The finished video comes back in chat for your approval. Nothing is posted automatically.</p>'; }
+function copyText(text,btn){ function done(){ if(btn){ var old=btn.textContent; btn.textContent='Copied - paste it in chat'; setTimeout(function(){ btn.textContent=old; },2200); } } if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done).catch(function(){ fallback(); }); } else { fallback(); } function fallback(){ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta); done(); } }
+renderVault(); renderQueue(); refreshPickers(); for(var sn2=1;sn2<=6;sn2++){ updateSoloPrompt(sn2); }
+</script>
+</body>
+</html>
