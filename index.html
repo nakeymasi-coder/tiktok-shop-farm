@@ -106,10 +106,10 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:0 16px 30px}
 </div>
 
 <div class="card">
-<h2>Product Presentation - one choice, never both</h2>
-<p>Every run picks ONE, right after Mode: <b>Wearing the product</b> OR <b>Holding the product</b>. Never both.</p>
-<p>Wearing run - every scene prompt ends: <b>"Wearing the product, not holding it."</b><br>Holding run - every scene prompt ends: <b>"Holding the product, not wearing it."</b></p>
-<p>Never show her wearing an outfit while holding that same outfit on a hanger. Reject and regenerate any image that shows both. If a video needs both, use separate scenes - holding first, wearing later - never the same shot.</p>
+<h2>Product Presentation - one choice per run</h2>
+<p>Every run picks ONE, right after Mode. The choices: <b>None</b> (the product is not presented - no presentation sentence goes in any prompt), <b>Wearing the product</b>, <b>Holding the product</b>, <b>Using the product</b>, <b>Showing it close to camera</b>, <b>Sitting beside her in frame</b>, <b>Unboxing / opening it</b>, <b>Holding it up by her face</b>, or <b>Holding in some scenes, wearing in others</b>.</p>
+<p>Each choice has its own sentence that ends every scene prompt. Wearing: <b>"Wearing the product, not holding it."</b> Holding: <b>"Holding the product, not wearing it."</b> Using: <b>"Using the product on camera, not just holding it."</b> None adds no sentence at all.</p>
+<p>Never show her wearing an outfit while holding that same outfit on a hanger in the same shot. Reject and regenerate any image that does. The mixed choice keeps them in separate scenes - holding first, wearing later - never the same shot.</p>
 </div>
 
 <div class="card">
@@ -125,7 +125,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:0 16px 30px}
 <div class="card">
 <h2>The scene prompt shape - use this, and nothing else about her</h2>
 <p>"Use the reference images and keep the character perfectly consistent. [Scene action only.] [Spoken line, if any.] Wearing the product, not holding it."</p>
-<p>For a Holding run, the last sentence swaps to: "Holding the product, not wearing it."</p>
+<p>The last sentence swaps to match the run's Product Presentation choice - Holding, Using, and every other choice carries its own sentence. For a None run, there is no last sentence.</p>
 <p>NEVER describe her in a scene prompt - no face, hair, skin, body, or outfit description. Describing her overrides the references and creates a different girl.</p>
 </div>
 
@@ -153,14 +153,21 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:0 16px 30px}
 <p style="margin:6px 0 0;color:var(--muted)">Pick a locked character, or pick "Create a new character" and add her in the Character Vault first. A character only counts as locked when BOTH vault slots are filled.</p>
 
 <label for="f_mode">2. Mode</label>
-<select id="f_mode"><option value="">- Pick a mode -</option><option>Get Ready With Me</option><option>Spend The Day With Me</option><option>Tutorials in general</option><option>Makeup tutorials</option><option>Hair tutorials</option><option>Product reviews</option><option>Cooking videos</option><option>TikTok Shop videos</option></select>
+<select id="f_mode"><option value="">- Pick a mode -</option><option>None</option><option>Get Ready With Me</option><option>Spend The Day With Me</option><option>Tutorials in general</option><option>Makeup tutorials</option><option>Hair tutorials</option><option>Product reviews</option><option>Cooking videos</option><option>TikTok Shop videos</option></select>
 
 <label>3. Product Presentation - pick ONE only</label>
 <div class="radio-row">
+<label><input type="radio" name="f_pp" value="None"> None - product is not presented</label>
 <label><input type="radio" name="f_pp" value="Wearing"> Wearing the product</label>
 <label><input type="radio" name="f_pp" value="Holding"> Holding the product</label>
+<label><input type="radio" name="f_pp" value="Using"> Using the product (putting it on / applying it)</label>
+<label><input type="radio" name="f_pp" value="CloseUp"> Showing it close to camera</label>
+<label><input type="radio" name="f_pp" value="BesideHer"> Sitting beside her in frame</label>
+<label><input type="radio" name="f_pp" value="Unboxing"> Unboxing / opening it on camera</label>
+<label><input type="radio" name="f_pp" value="ByFace"> Holding it up by her face</label>
+<label><input type="radio" name="f_pp" value="MixedScenes"> Holding in some scenes, wearing in others</label>
 </div>
-<p style="margin:6px 0 0;color:var(--muted)">Wearing: every prompt ends "Wearing the product, not holding it." Holding: every prompt ends "Holding the product, not wearing it." Never both.</p>
+<p style="margin:6px 0 0;color:var(--muted)">One choice per run. Each choice ends every scene prompt with its own sentence - None adds no sentence at all. Wearing and holding never mix in the same shot.</p>
 
 <label for="f_topic">4. Topic</label>
 <input type="text" id="f_topic" placeholder="For example: satin pajama set for a cozy night in">
@@ -251,7 +258,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:0 16px 30px}
 <label>Locked character (when the pick is for a character)</label><select id="s2_char" class="char-picker"></select>
 <label>Mode</label><select id="s2_mode" class="mode-sel"></select>
 <label>Product Presentation - pick ONE only</label>
-<div class="radio-row"><label><input type="radio" name="s2_pp" value="Wearing"> Wearing the product</label><label><input type="radio" name="s2_pp" value="Holding"> Holding the product</label></div>
+<div class="radio-row"><label><input type="radio" name="s2_pp" value="None"> None - product is not presented</label><label><input type="radio" name="s2_pp" value="Wearing"> Wearing the product</label><label><input type="radio" name="s2_pp" value="Holding"> Holding the product</label><label><input type="radio" name="s2_pp" value="Using"> Using the product (putting it on / applying it)</label><label><input type="radio" name="s2_pp" value="CloseUp"> Showing it close to camera</label><label><input type="radio" name="s2_pp" value="BesideHer"> Sitting beside her in frame</label><label><input type="radio" name="s2_pp" value="Unboxing"> Unboxing / opening it on camera</label><label><input type="radio" name="s2_pp" value="ByFace"> Holding it up by her face</label><label><input type="radio" name="s2_pp" value="MixedScenes"> Holding in some scenes, wearing in others</label></div>
 <label>Topic or product category</label><input type="text" id="s2_topic" placeholder="For example: skincare my audience will love">
 <label>Product focus</label><input type="text" id="s2_product_name" placeholder="A product name you already have in mind, if any">
 <label>TikTok Shop product link, when there is one</label><input type="url" id="s2_product_link" placeholder="Paste the TikTok Shop product link exactly as shown">
@@ -287,7 +294,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:0 16px 30px}
 <label>Locked character</label><select id="s4_char" class="char-picker"></select>
 <label>Mode</label><select id="s4_mode" class="mode-sel"></select>
 <label>Product Presentation - pick ONE only</label>
-<div class="radio-row"><label><input type="radio" name="s4_pp" value="Wearing"> Wearing the product</label><label><input type="radio" name="s4_pp" value="Holding"> Holding the product</label></div>
+<div class="radio-row"><label><input type="radio" name="s4_pp" value="None"> None - product is not presented</label><label><input type="radio" name="s4_pp" value="Wearing"> Wearing the product</label><label><input type="radio" name="s4_pp" value="Holding"> Holding the product</label><label><input type="radio" name="s4_pp" value="Using"> Using the product (putting it on / applying it)</label><label><input type="radio" name="s4_pp" value="CloseUp"> Showing it close to camera</label><label><input type="radio" name="s4_pp" value="BesideHer"> Sitting beside her in frame</label><label><input type="radio" name="s4_pp" value="Unboxing"> Unboxing / opening it on camera</label><label><input type="radio" name="s4_pp" value="ByFace"> Holding it up by her face</label><label><input type="radio" name="s4_pp" value="MixedScenes"> Holding in some scenes, wearing in others</label></div>
 <label>Topic</label><input type="text" id="s4_topic" placeholder="Topic for the script">
 <label>Length</label><input type="text" id="s4_length" placeholder="For example: 30 seconds">
 <label>Product name, when there is one</label><input type="text" id="s4_product_name" placeholder="Product name">
@@ -306,7 +313,7 @@ footer{text-align:center;color:var(--muted);font-size:14px;padding:0 16px 30px}
 <label>Locked character</label><select id="s5_char" class="char-picker"></select>
 <label>Mode</label><select id="s5_mode" class="mode-sel"></select>
 <label>Product Presentation - pick ONE only</label>
-<div class="radio-row"><label><input type="radio" name="s5_pp" value="Wearing"> Wearing the product</label><label><input type="radio" name="s5_pp" value="Holding"> Holding the product</label></div>
+<div class="radio-row"><label><input type="radio" name="s5_pp" value="None"> None - product is not presented</label><label><input type="radio" name="s5_pp" value="Wearing"> Wearing the product</label><label><input type="radio" name="s5_pp" value="Holding"> Holding the product</label><label><input type="radio" name="s5_pp" value="Using"> Using the product (putting it on / applying it)</label><label><input type="radio" name="s5_pp" value="CloseUp"> Showing it close to camera</label><label><input type="radio" name="s5_pp" value="BesideHer"> Sitting beside her in frame</label><label><input type="radio" name="s5_pp" value="Unboxing"> Unboxing / opening it on camera</label><label><input type="radio" name="s5_pp" value="ByFace"> Holding it up by her face</label><label><input type="radio" name="s5_pp" value="MixedScenes"> Holding in some scenes, wearing in others</label></div>
 <label>Topic</label><input type="text" id="s5_topic" placeholder="Topic for the video">
 <label>Length</label><input type="text" id="s5_length" placeholder="For example: 30 seconds">
 <label>Product name, when there is one</label><input type="text" id="s5_product_name" placeholder="Product name">
@@ -369,13 +376,13 @@ try{ queue=JSON.parse(localStorage.getItem('tiktokshopfarm_queue_v1')||'[]'); }c
 function $(id){ return document.getElementById(id); }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function save(){ try{ localStorage.setItem('tiktokshopfarm_chars_v1',JSON.stringify(chars)); localStorage.setItem('tiktokshopfarm_queue_v1',JSON.stringify(queue)); }catch(e){ alert('This browser is out of space for saved photos. The item was kept for this visit but may not survive a reload.'); } }
-function ppSentence(pp){ if(pp==='Holding') return 'Holding the product, not wearing it.'; if(pp==='Wearing') return 'Wearing the product, not holding it.'; return 'Not picked yet - a run must pick Wearing OR Holding, never both.'; }
+function ppSentence(pp){ if(pp==='Holding') return 'Holding the product, not wearing it.'; if(pp==='Wearing') return 'Wearing the product, not holding it.'; if(pp==='Using') return 'Using the product on camera, not just holding it.'; if(pp==='CloseUp') return 'Showing the product close to camera.'; if(pp==='BesideHer') return 'The product sits beside her in frame - she is not holding it or wearing it.'; if(pp==='Unboxing') return 'Unboxing the product on camera.'; if(pp==='ByFace') return 'Holding the product up beside her face.'; if(pp==='MixedScenes') return 'Holding the product in some scenes and wearing it in others - never both in the same shot.'; if(pp==='None') return 'No presentation line - scene prompts carry no wearing, holding, or using sentence for the product.'; return 'Not picked yet - pick ONE Product Presentation. None is a real choice.'; }
 function getChar(id){ for(var i=0;i<chars.length;i++){ if(chars[i].id===id) return chars[i]; } return null; }
 function charLabel(c){ return c ? ('Character '+c.letter+' - '+c.name) : 'No character picked'; }
 function isLocked(c){ return !!(c && c.slot1 && c.slot2); }
 function showPage(name){ var pages=document.querySelectorAll('.page'); for(var i=0;i<pages.length;i++) pages[i].classList.remove('active'); var p=$('page-'+name); if(p) p.classList.add('active'); var btns=document.querySelectorAll('nav button'); for(var j=0;j<btns.length;j++){ btns[j].classList.toggle('active', btns[j].getAttribute('data-page')===name); } window.scrollTo(0,0); }
 var navBtns=document.querySelectorAll('nav button'); for(var nb=0;nb<navBtns.length;nb++){ navBtns[nb].addEventListener('click',function(){ showPage(this.getAttribute('data-page')); }); }
-function refreshPickers(){ var opts='<option value="">- No character picked -</option><option value="__new">Create a new character (add her in the Character Vault)</option>'; chars.forEach(function(c){ opts+='<option value="'+c.id+'">Character '+esc(c.letter)+' - '+esc(c.name)+(isLocked(c)?' (LOCKED)':' (not locked yet)')+'</option>'; }); $('f_char').innerHTML=opts; var picks=document.querySelectorAll('.char-picker'); for(var i=0;i<picks.length;i++){ var cur=picks[i].value; picks[i].innerHTML=opts; picks[i].value=cur; } var modes='<option value="">- Pick a mode -</option>'+MODES.map(function(m){ return '<option>'+m+'</option>'; }).join(''); var ms=document.querySelectorAll('.mode-sel'); for(var k=0;k<ms.length;k++){ var mv=ms[k].value; ms[k].innerHTML=modes; ms[k].value=mv; } $('vaultBadge').textContent=chars.length; $('queueBadge').textContent=queue.length; }
+function refreshPickers(){ var opts='<option value="">- No character picked -</option><option value="__new">Create a new character (add her in the Character Vault)</option>'; chars.forEach(function(c){ opts+='<option value="'+c.id+'">Character '+esc(c.letter)+' - '+esc(c.name)+(isLocked(c)?' (LOCKED)':' (not locked yet)')+'</option>'; }); $('f_char').innerHTML=opts; var picks=document.querySelectorAll('.char-picker'); for(var i=0;i<picks.length;i++){ var cur=picks[i].value; picks[i].innerHTML=opts; picks[i].value=cur; } var modes='<option value="">- Pick a mode -</option><option>None</option>'+MODES.map(function(m){ return '<option>'+m+'</option>'; }).join(''); var ms=document.querySelectorAll('.mode-sel'); for(var k=0;k<ms.length;k++){ var mv=ms[k].value; ms[k].innerHTML=modes; ms[k].value=mv; } $('vaultBadge').textContent=chars.length; $('queueBadge').textContent=queue.length; }
 function isJpgPng(file){ if(!file) return false; var n=(file.name||'').toLowerCase(); var t=file.type||''; if(t==='image/webp'||n.slice(-5)==='.webp') return false; return t==='image/jpeg'||t==='image/png'||n.slice(-4)==='.jpg'||n.slice(-5)==='.jpeg'||n.slice(-4)==='.png'; }
 function readSlot(file,cb,errEl){ if(!file){ cb(null); return; } if(!isJpgPng(file)){ if(errEl){ errEl.textContent='JPG or PNG please.'; } alert('JPG or PNG please.'); cb(undefined); return; } var r=new FileReader(); r.onload=function(){ cb({data:r.result,name:file.name}); }; r.readAsDataURL(file); }
 $('v_slot1').addEventListener('change',function(){ $('v_err').textContent=''; readSlot(this.files[0],function(res){ if(res===undefined){ $('v_slot1').value=''; return; } pendingSlot1=res; $('v_slot1_preview').innerHTML=res?('<img src="'+res.data+'" alt="Slot 1 headshot preview">'):'No headshot yet'; },$('v_err')); });
@@ -438,7 +445,7 @@ if(d.agentNum===6) b='AGENT JOB - Caption Agent only:\nWrite the TikTok caption,
 return jobHeader('TIKTOK AND TIKTOK SHOP UGC AGENT FARM - SOLO JOB: Agent '+d.agentNum+' - '+AGENT_NAMES[d.agentNum],d)+b+rulesBlock(d.pp||''); }
 function promptFor(item){ return item.agentNum ? buildSoloPrompt(item) : buildFullPrompt(item); }
 function checkedPP(name){ var r=document.querySelectorAll('input[name="'+name+'"]'); for(var i=0;i<r.length;i++){ if(r[i].checked) return r[i].value; } return ''; }
-function submitIntake(){ $('f_err').textContent=''; $('f_msg').textContent=''; var charId=$('f_char').value; if(charId==='__new') charId=''; var mode=$('f_mode').value; var pp=checkedPP('f_pp'); var topic=$('f_topic').value.trim(); if(!mode){ $('f_err').textContent='Pick a mode first.'; return; } if(!pp){ $('f_err').textContent='Pick ONE Product Presentation: Wearing OR Holding. Never both, never neither.'; return; } if(!topic){ $('f_err').textContent='Add a topic so your AI knows what this run is about.'; return; } var c=getChar(charId); var item={id:'r'+Date.now(),type:'Full Farm Run',agentNum:0,charId:charId,voice:c?(c.voice||''):'' ,mode:mode,pp:pp,topic:topic,length:$('f_length').value.trim(),productName:$('f_product_name').value.trim(),productLink:$('f_product_link').value.trim(),refVideo:$('f_ref_video').value.trim(),notes:$('f_notes').value.trim(),extra:'',status:'queued',createdAt:Date.now()}; queue.unshift(item); save(); renderQueue(); refreshPickers(); $('queueBadge').textContent=queue.length; $('f_msg').textContent='Added to your Queue. Tap Queue, then Run in Chat, when you are ready.'; $('f_topic').value=''; $('f_length').value=''; $('f_product_name').value=''; $('f_product_link').value=''; $('f_ref_video').value=''; $('f_notes').value=''; }
+function submitIntake(){ $('f_err').textContent=''; $('f_msg').textContent=''; var charId=$('f_char').value; if(charId==='__new') charId=''; var mode=$('f_mode').value; var pp=checkedPP('f_pp'); var topic=$('f_topic').value.trim(); if(!mode){ $('f_err').textContent='Pick a mode first.'; return; } if(!pp){ $('f_err').textContent='Pick ONE Product Presentation - None is a real choice when the product is not presented.'; return; } if(!topic){ $('f_err').textContent='Add a topic so your AI knows what this run is about.'; return; } var c=getChar(charId); var item={id:'r'+Date.now(),type:'Full Farm Run',agentNum:0,charId:charId,voice:c?(c.voice||''):'' ,mode:mode,pp:pp,topic:topic,length:$('f_length').value.trim(),productName:$('f_product_name').value.trim(),productLink:$('f_product_link').value.trim(),refVideo:$('f_ref_video').value.trim(),notes:$('f_notes').value.trim(),extra:'',status:'queued',createdAt:Date.now()}; queue.unshift(item); save(); renderQueue(); refreshPickers(); $('queueBadge').textContent=queue.length; $('f_msg').textContent='Added to your Queue. Tap Queue, then Run in Chat, when you are ready.'; $('f_topic').value=''; $('f_length').value=''; $('f_product_name').value=''; $('f_product_link').value=''; $('f_ref_video').value=''; $('f_notes').value=''; }
 function soloData(n){ var charId=$('s'+n+'_char').value; if(charId==='__new') charId=''; var c=getChar(charId); var pp=''; if(n===2) pp=checkedPP('s2_pp'); if(n===4) pp=checkedPP('s4_pp'); if(n===5) pp=checkedPP('s5_pp'); var ex=''; var exEl=$('s'+n+'_extra'); if(exEl) ex=exEl.value.trim(); return {id:'r'+Date.now()+n,type:'Solo - '+AGENT_NAMES[n],agentNum:n,charId:charId,voice:c?(c.voice||''):'',mode:$('s'+n+'_mode').value,pp:pp,topic:$('s'+n+'_topic').value.trim(),length:$('s'+n+'_length').value.trim(),productName:$('s'+n+'_product_name').value.trim(),productLink:$('s'+n+'_product_link').value.trim(),refVideo:$('s'+n+'_ref_video').value.trim(),notes:$('s'+n+'_notes').value.trim(),extra:ex,status:'queued',createdAt:Date.now()}; }
 function updateSoloPrompt(n){ var out=$('s'+n+'_prompt'); if(out) out.textContent=buildSoloPrompt(soloData(n)); }
 function queueSolo(n){ var item=soloData(n); queue.unshift(item); save(); renderQueue(); refreshPickers(); $('queueBadge').textContent=queue.length; showPage('queue'); }
